@@ -15,19 +15,15 @@ import java.util.UUID;
 public abstract class BaseEntity {
 
     @Id
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    protected UUID id;
+    protected Long id;
 
     @Column(name = "created_at", nullable = false)
     protected LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     protected LocalDateTime updatedAt;
-
-    @Column(name = "user_id")
-    private User user;
 
     @PrePersist
     @SuppressWarnings("unused")

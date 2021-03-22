@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -33,9 +31,9 @@ public class MuseuEntity extends BaseEntity {
     @Column(name = "logitude", nullable = false)
     protected Long longitude;
 
-    @Column(name = "created_at", nullable = false)
-    protected Categoria categoria;
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    protected CategoriaEntity categoria;
 
-    @Column(name = "created_at", nullable = false)
-    protected List<EventoEntity> eventoEntities;
+
 }

@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
@@ -15,11 +13,12 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name ="eventoEntities")
+@Table(name ="eventos")
 @Entity
 public class EventoEntity extends BaseEntity {
 
-    @Column(name="museu_id")
+    @ManyToOne
+    @JoinColumn(name = "museu_id")
     private MuseuEntity museuEntity;
 
     @Column(name = "nome")
@@ -28,11 +27,13 @@ public class EventoEntity extends BaseEntity {
     @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "tematica")
-    private Tematica tematica;
+    @ManyToOne
+    @JoinColumn(name = "tematica_id")
+    private TematicaEntity tematica;
 
-    @Column(name = "tag")
-    private Tag tag;
+    @ManyToOne
+    @JoinColumn(name = "tag_id")
+    private TagEntity tag;
 
     @Column(name = "ini_evento")
     private LocalDateTime IniEvento;

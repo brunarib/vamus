@@ -13,11 +13,10 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tags")
+@Table(name ="categorias")
 @Entity
-public class TagEntity extends BaseEntity{
+public class CategoriaEntity extends BaseEntity {
 
     @Column(name = "nome")
     private String nome;
-
 }
