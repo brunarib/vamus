@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Where(clause = "deleted =false")
 @Table(name = "usuarios")
 @Entity
 public class UserEntity {
@@ -27,13 +29,14 @@ public class UserEntity {
     @Column(name = "updated_at", nullable = false)
     protected LocalDateTime updatedAt;
 
-    @Column(name = "deleted", insertable = false)
+    @Column(name = "deleted")
     protected  Boolean deleted;
 
     @PrePersist
     @SuppressWarnings("unused")
     protected void onCreate() {
         createdAt = updatedAt = LocalDateTime.now();
+        deleted =false;
     }
 
     @PreUpdate

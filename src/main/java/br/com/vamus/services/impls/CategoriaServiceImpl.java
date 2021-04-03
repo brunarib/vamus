@@ -31,8 +31,6 @@ public class CategoriaServiceImpl implements CategoriaService {
     public CategoriaEntity create(CategoriaDTO dto) {
         CategoriaEntity entity = new CategoriaEntity();
         entity.setNome(dto.getNome());
-        entity.setCreatedAt(LocalDateTime.now());
-        entity.setUpdatedAt(LocalDateTime.now());
         return this.repository.save(entity);
     }
 

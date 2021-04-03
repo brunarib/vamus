@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 public class EventoDTO {
 
-    private UUID id;
+    private Long id;
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private String nome;
@@ -23,8 +23,8 @@ public class EventoDTO {
     private Boolean gratuito;
     private Float valor;
     private MuseuInputDTO museu;
-    private List<TagDTO> tag;
-    private List<TematicaDTO> tematica;
+
+
 
 
 

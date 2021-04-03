@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "deleted is false")
+@Where(clause = "deleted =false")
 @Table(name = "museus")
 @Entity
 public class MuseuEntity {
@@ -27,13 +27,14 @@ public class MuseuEntity {
     @Column(name = "updated_at", nullable = false)
     protected LocalDateTime updatedAt;
 
-    @Column(name = "deleted", insertable = false)
+    @Column(name = "deleted")
     protected  Boolean deleted;
 
     @PrePersist
     @SuppressWarnings("unused")
     protected void onCreate() {
         createdAt = updatedAt = LocalDateTime.now();
+        deleted =false;
     }
 
     @PreUpdate
@@ -52,12 +53,12 @@ public class MuseuEntity {
     protected String endereco;
 
     @Column(name = "latitude")
-    protected Long latitude;
+    protected String latitude;
 
     @Column(name = "logitude")
-    protected Long longitude;
+    protected String longitude;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "categoria_id")
     protected CategoriaEntity categoria;
 

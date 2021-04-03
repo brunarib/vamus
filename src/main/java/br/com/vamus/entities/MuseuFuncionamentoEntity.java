@@ -29,13 +29,14 @@ public class MuseuFuncionamentoEntity {
     @Column(name = "updated_at", nullable = false)
     protected LocalDateTime updatedAt;
 
-    @Column(name = "deleted", insertable = false)
+    @Column(name = "deleted")
     protected  Boolean deleted;
 
     @PrePersist
     @SuppressWarnings("unused")
     protected void onCreate() {
         createdAt = updatedAt = LocalDateTime.now();
+        deleted =false;
     }
 
     @PreUpdate
@@ -44,25 +45,25 @@ public class MuseuFuncionamentoEntity {
         updatedAt = LocalDateTime.now();
     }
 
-    @Column(name = "domingo", insertable = false)
+    @Column(name = "domingo")
     private Boolean  domingo;
 
-    @Column(name = "segunda",insertable = false)
+    @Column(name = "segunda")
     private Boolean  segunda;
 
-    @Column(name = "terca", insertable = false)
+    @Column(name = "terca")
     private Boolean  terca;
 
-    @Column(name = "quarta", insertable = false)
+    @Column(name = "quarta" )
     private Boolean  quarta;
 
-    @Column(name = "quinta", insertable = false)
+    @Column(name = "quinta" )
     private Boolean  quinta;
 
-    @Column(name = "sexta", insertable = false)
+    @Column(name = "sexta" )
     private Boolean  sexta;
 
-    @Column(name = "sabado", insertable = false)
+    @Column(name = "sabado" )
     private Boolean  sabado;
 
     @Column(name = "inicio_funcionamento")
@@ -71,7 +72,7 @@ public class MuseuFuncionamentoEntity {
     @Column(name = "fim_funcionamento")
     private LocalTime fimFuncionameto;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "museu_id")
     protected MuseuEntity museuId;
 

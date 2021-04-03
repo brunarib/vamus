@@ -1,5 +1,7 @@
 package br.com.vamus.controller.dtos;
 
+import br.com.vamus.entities.CategoriaEntity;
+import br.com.vamus.entities.MuseuEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,19 +14,31 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-@Builder
 public class MuseuOutputDTO {
 
-    private UUID id;
-    private LocalDateTime CreatedAt;
-    private LocalDateTime updatedAt;
-    private String nome;
-    private String decricao;
-    private String endereco;
-    private Long   latitude;
-    private Long   longitude;
-    private CategoriaDTO categoria;
-    private List<EventoDTO> eventosList;
-    private MuseuFuncionamentoOutputDTO funcionamento;
+    public Long id;
+    public LocalDateTime createdAt;
+    public LocalDateTime updatedAt;
+    public String nome;
+    public String decricao;
+    public String endereco;
+    public String   latitude;
+    public String   longitude;
+    public CategoriaDTO categoria;
+
+
+    public MuseuOutputDTO(MuseuEntity museuEntity) {
+
+        this.id=museuEntity.getId();
+        this.createdAt=museuEntity.getCreatedAt();
+        this.updatedAt=museuEntity.getUpdatedAt();
+        this.nome=museuEntity.getNome();
+        this.decricao=museuEntity.getDescricao();
+        this.endereco=museuEntity.getEndereco();
+        this.latitude=museuEntity.getLatitude();
+        this.longitude=museuEntity.getLongitude();
+        this.categoria= new CategoriaDTO(museuEntity.getCategoria());
+    }
+
 
 }

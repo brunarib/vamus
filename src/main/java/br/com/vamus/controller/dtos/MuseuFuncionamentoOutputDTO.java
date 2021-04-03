@@ -4,6 +4,7 @@ package br.com.vamus.controller.dtos;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 
@@ -13,9 +14,9 @@ import java.util.UUID;
 @Builder
 public class MuseuFuncionamentoOutputDTO {
 
-    private UUID id;
-    private LocalDateTime inicio;
-    private LocalDateTime fim;
+    private Long id;
+    private LocalTime inicio;
+    private LocalTime fim;
     private Boolean domingo;
     private Boolean segunda;
     private Boolean terca;
