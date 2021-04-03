@@ -15,8 +15,33 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name ="eventos")
 @Entity
-public class EventoEntity extends BaseEntity {
+public class EventoEntity  {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", unique = true, nullable = false)
+    protected Long id;
+
+    @Column(name = "created_at", nullable = false)
+    protected LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    protected LocalDateTime updatedAt;
+
+    @Column(name = "deleted", insertable = false)
+    protected  Boolean deleted;
+
+    @PrePersist
+    @SuppressWarnings("unused")
+    protected void onCreate() {
+        createdAt = updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    @SuppressWarnings("unused")
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
     @ManyToOne
     @JoinColumn(name = "museu_id")
     private MuseuEntity museuEntity;
@@ -41,8 +66,8 @@ public class EventoEntity extends BaseEntity {
     @Column(name = "fim_evento")
     private LocalDateTime FimEvento;
 
-    @Column(name = "gratuito")
-    private Boolean gratuito =true;
+    @Column(name = "gratuito", insertable = true)
+    private Boolean gratuito;
 
     @Column(name = "valor")
     private Float valor;

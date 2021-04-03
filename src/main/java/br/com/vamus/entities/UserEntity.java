@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.security.Permission;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,7 +14,33 @@ import java.security.Permission;
 @AllArgsConstructor
 @Table(name = "usuarios")
 @Entity
-public class UserEntity extends BaseEntity{
+public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", unique = true, nullable = false)
+    protected Long id;
+
+    @Column(name = "created_at", nullable = false)
+    protected LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    protected LocalDateTime updatedAt;
+
+    @Column(name = "deleted", insertable = false)
+    protected  Boolean deleted;
+
+    @PrePersist
+    @SuppressWarnings("unused")
+    protected void onCreate() {
+        createdAt = updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    @SuppressWarnings("unused")
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     @Column(name = "name")
     private String name;
@@ -27,7 +51,6 @@ public class UserEntity extends BaseEntity{
     @Column(name = "password")
     private String password;
 
-    @Column(name = "permission_id")
-    private Permission permission;
+
 
 }

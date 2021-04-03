@@ -4,6 +4,7 @@ import br.com.vamus.controller.dtos.CategoriaDTO;
 import br.com.vamus.entities.CategoriaEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CategoriaService {
 
@@ -11,5 +12,5 @@ public interface CategoriaService {
 
     CategoriaEntity create (CategoriaDTO dto);
 
-    CategoriaEntity findById(Integer id);
+    CategoriaEntity findById(Long id);
 }

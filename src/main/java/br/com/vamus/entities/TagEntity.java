@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,7 +14,33 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Table(name = "tags")
 @Entity
-public class TagEntity extends BaseEntity{
+public class TagEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", unique = true, nullable = false)
+    protected Long id;
+
+    @Column(name = "created_at", nullable = false)
+    protected LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    protected LocalDateTime updatedAt;
+
+    @Column(name = "deleted", insertable = false)
+    protected  Boolean deleted;
+
+    @PrePersist
+    @SuppressWarnings("unused")
+    protected void onCreate() {
+        createdAt = updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    @SuppressWarnings("unused")
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     @Column(name = "nome")
     private String nome;
