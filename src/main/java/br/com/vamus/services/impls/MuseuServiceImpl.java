@@ -65,6 +65,7 @@ public class MuseuServiceImpl implements MuseuService {
         entity.setDeleted(false);
         entity.setNome(dto.getNome());
         entity.setEndereco(dto.getEndereco());
+        entity.setValor(dto.getValor());
         entity.setDescricao(dto.getDecricao());
         entity.setLatitude(dto.getLatitude());
         entity.setLongitude(dto.getLongitude());
@@ -101,21 +102,21 @@ public class MuseuServiceImpl implements MuseuService {
 
 
     @Override
-    public List<MuseuEntity> listMuseus() {
+    public List<MuseuOutputDTO> listMuseus() {
 
         List<MuseuEntity> list = museuRepository.findAll();
-        return list;
+
+        List<MuseuOutputDTO> dtos =
+                list.stream().map(MuseuOutputDTO::new).collect(Collectors.toList());
+        return dtos;
     }
 
     @Override
-    public Page<List<MuseuOutputDTO>> findMuseus(MuseuOutputDTO museuOutputDTO,
-                                                 Pageable pageable) throws JsonProcessingException {
+    public Page<List<MuseuOutputDTO>> findMuseus(Pageable pageable) throws JsonProcessingException {
 
         Page pagCommissioned = museuRepository.findAll(
                 pageable);
         List<MuseuEntity> entityList = pagCommissioned.getContent();
-
-
         List<MuseuOutputDTO> museus =
                 entityList.stream().map(MuseuOutputDTO::new).collect(Collectors.toList());
 
@@ -134,6 +135,15 @@ public class MuseuServiceImpl implements MuseuService {
         List<MuseuDetalhesOutputDTO> dtos =
                 museuFuncionamentoRepository.findByFuncionamentoNow(dia);
         return dtos;
+    }
+
+    @Override
+    public void deleteMuseu(Long id) {
+       MuseuEntity entity =
+                museuRepository.findById(id).orElseThrow(() -> new RuntimeException("não encontrado!"));
+        entity.setDeleted(true);
+        museuRepository.save(entity);
+
     }
 
 }

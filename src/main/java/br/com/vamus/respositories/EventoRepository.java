@@ -2,6 +2,8 @@ package br.com.vamus.respositories;
 
 
 import br.com.vamus.entities.EventoEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,7 +29,10 @@ public interface EventoRepository extends JpaRepository<EventoEntity, Long>{
 
     @Query(nativeQuery = true, value = "select * from vamus.eventos where " +
             " now() between ini_evento and fim_evento")
-    List<EventoEntity> findByDateNow();
+    Page<EventoEntity> findByDateNowPaged(Pageable pageable);
 
+    @Query(nativeQuery = true, value = "select * from vamus.eventos where " +
+            " now() between ini_evento and fim_evento")
+    List<EventoEntity> findByDateNow();
 
 }

@@ -22,6 +22,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +44,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
         String apis = "br.com.vamus";
 
         ApiInfo apiInfo = buildApiInfoBase().version(version).build();
-        return buildApiBase().apiInfo(apiInfo).groupName(version)
+        return buildApiBase().directModelSubstitute(LocalDateTime.class,
+                String.class)
+                .directModelSubstitute(LocalDate.class, String.class)
+                .directModelSubstitute(LocalTime.class, String.class)
+                .directModelSubstitute(ZonedDateTime.class, String.class).apiInfo(apiInfo).groupName(version)
                 .tags(
                         new Tag("Vamus", "Vamus", 0)
                 )

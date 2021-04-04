@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/museus")
@@ -33,26 +34,20 @@ public class MuseuController {
     }
 
     @GetMapping("/all")
-    public List<MuseuEntity> listMuseus(){
-        return  service.listMuseus();
+    public ResponseEntity<List<MuseuOutputDTO>> listMuseus(){
+
+       return new ResponseEntity<>(service.listMuseus(), HttpStatus.OK);
     }
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Page<List<MuseuOutputDTO>>> findMuseus(
+    public ResponseEntity<Page<List<MuseuOutputDTO>>> listMuseusPaged(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @ModelAttribute MuseuOutputDTO params) throws JsonProcessingException {
+            @RequestParam(defaultValue = "10") int size) throws JsonProcessingException {
         Pageable pageable = PageRequest.of(page, size);
-        return new ResponseEntity<>(service.findMuseus(params,
+        return new ResponseEntity<>(service.findMuseus(
                 pageable), HttpStatus.OK);
     }
-
-    /*@GetMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> getMib(@PathVariable Long id) {
-        CategoriaEntity entity = service.findById(id);
-        return new ResponseEntity<>(new CategoriaDTO(entity), HttpStatus.OK);
-    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<MuseuDetalhesOutputDTO>findById(@PathVariable Long id) throws Exception {
@@ -63,10 +58,16 @@ public class MuseuController {
     }
 
     @GetMapping("/{dia}/allOpenNow")
-    public ResponseEntity<List<MuseuDetalhesOutputDTO>>findById(@PathVariable String dia) throws Exception {
+    public ResponseEntity<List<MuseuDetalhesOutputDTO>>listAllOpenNow(@PathVariable String dia) throws Exception {
         List<MuseuDetalhesOutputDTO>list = service.listByFuncionamento(dia);
         return new ResponseEntity<>(list,
                 HttpStatus.OK);
     }
 
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable Long id) {
+        service.deleteMuseu(id);
+    }
 }

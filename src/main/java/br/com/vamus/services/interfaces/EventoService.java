@@ -1,9 +1,9 @@
 package br.com.vamus.services.interfaces;
 
-import br.com.vamus.controller.dtos.CategoriaDTO;
 import br.com.vamus.controller.dtos.EventoDTO;
-import br.com.vamus.entities.CategoriaEntity;
-import br.com.vamus.entities.EventoEntity;
+import br.com.vamus.controller.dtos.EventoOutputDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,16 +11,19 @@ import java.util.UUID;
 
 public interface EventoService {
 
-    List<EventoEntity> listEventos();
+    List<EventoOutputDTO> listEventos();
 
-    EventoEntity create (EventoDTO dto);
+    EventoOutputDTO create (EventoDTO dto);
 
-    EventoEntity findById(Long id);
-
-
-    List<EventoEntity> listEventosNow();
+    EventoOutputDTO findById(Long id);
 
 
-    List<EventoEntity> listEventosByPeriod(LocalDateTime inicio,
+    Page<List<EventoOutputDTO>> listEventosNowPaged(Pageable pageable);
+
+    List<EventoOutputDTO> listEventosNow();
+
+    List<EventoOutputDTO> listEventosByPeriod(LocalDateTime inicio,
                                            LocalDateTime fim);
+
+    void deleteEvento(Long id);
 }
