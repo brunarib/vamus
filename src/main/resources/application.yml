@@ -1,0 +1,33 @@
+#server:
+ # port: 8080
+  #servlet:
+ #   context-path: /api
+
+#spring:
+#  application:
+#    name: vamus
+#  datasource:
+#    url: ${DATASOURCE_JDBC:jdbc:mysql://localhost:3306/vamus?useSSL=false}
+#    username: ${DATASOURCE_USERNAME:mysql}
+#    password: ${DATASOURCE_PASSWORD:}
+
+
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+#        ddl-auto: create
+#        enable_lazy_load_no_trans: true
+#        show_sql: true
+#        format_sql: true
+  #flyway:
+  #  table: device_manager_flyway_schema_history
+  #  baseline-on-migrate: true
+  #  baseline-version: 0
+
+
+
+#security:
+# jwt:
+#   uri: /auth/**
+#    secret: hj5I0cDOzL5AU6aMdSRzJWXuqlH1w88y
