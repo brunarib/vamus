@@ -1,6 +1,7 @@
 package br.com.vamus.controller.dtos;
 
 
+import br.com.vamus.entities.MuseuFuncionamentoEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+
 public class MuseuFuncionamentoOutputDTO {
 
     private Long id;
@@ -26,8 +27,17 @@ public class MuseuFuncionamentoOutputDTO {
     private Boolean sabado;
 
 
+    public MuseuFuncionamentoOutputDTO(MuseuFuncionamentoEntity entity) {
 
-
-
-
+        this.id = entity.getId();
+        this.inicio = entity.getIniFuncionameto();
+        this.fim=entity.getFimFuncionameto();
+        this.domingo=entity.getDomingo();
+        this.segunda=entity.getSegunda();
+        this.terca=entity.getTerca();
+        this.quarta=entity.getQuarta();
+        this.quinta=entity.getQuinta();
+        this.sexta=entity.getSexta();
+        this.sabado=entity.getSabado();
+    }
 }

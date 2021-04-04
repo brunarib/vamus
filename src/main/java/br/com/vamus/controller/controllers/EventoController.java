@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +27,13 @@ public class EventoController {
 
     @GetMapping("/")
     public List<EventoEntity> listEventos(){
-        return  service.listEventos();
+        return  service.listEventosNow();
+    }
+
+    @GetMapping("/{inicio}/{fim}")
+    public List<EventoEntity> listEventosByPeriod(@PathVariable LocalDateTime inicio
+            , @PathVariable LocalDateTime fim ){
+        return  service.listEventosByPeriod(inicio,fim);
     }
 
     @GetMapping("/{id}")

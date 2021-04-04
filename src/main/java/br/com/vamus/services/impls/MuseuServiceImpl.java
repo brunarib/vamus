@@ -1,6 +1,8 @@
 package br.com.vamus.services.impls;
 
 
+import br.com.vamus.controller.dtos.MuseuDetalhesOutputDTO;
+import br.com.vamus.controller.dtos.MuseuFuncionamentoOutputDTO;
 import br.com.vamus.controller.dtos.MuseuInputDTO;
 import br.com.vamus.controller.dtos.MuseuOutputDTO;
 import br.com.vamus.entities.CategoriaEntity;
@@ -46,10 +48,16 @@ public class MuseuServiceImpl implements MuseuService {
      }*/
 
     @Override
-    public MuseuEntity create(MuseuInputDTO dto) {
+    public MuseuEntity create(MuseuInputDTO dto) throws Exception {
+
 
         CategoriaEntity categoriaEntity =
-                categoriaRepository.findById(dto.getCategoria().getId()).get();
+                categoriaRepository.findCategoriaById(dto.getCategoria().getId());
+
+        if (categoriaEntity == null) {
+
+            throw new RuntimeException("Categoria não encontrada!" );
+        }
 
         MuseuEntity entity = new MuseuEntity();
         entity.setCreatedAt(LocalDateTime.now());
@@ -81,21 +89,27 @@ public class MuseuServiceImpl implements MuseuService {
     }
 
     @Override
-    public MuseuEntity findById(Long id) {
-        return this.museuRepository.findById(id).get();
+    public MuseuEntity findById(Long id) throws Exception {
+        MuseuEntity entity = museuRepository.findById(id).get();
+        if (entity == null) {
+
+            throw new Exception("Museu não cadastrado!");
+        }
+        return entity;
+
     }
 
 
     @Override
     public List<MuseuEntity> listMuseus() {
 
-        List<MuseuEntity> list =  museuRepository.findAll();
+        List<MuseuEntity> list = museuRepository.findAll();
         return list;
     }
 
     @Override
     public Page<List<MuseuOutputDTO>> findMuseus(MuseuOutputDTO museuOutputDTO,
-                                               Pageable pageable) throws JsonProcessingException {
+                                                 Pageable pageable) throws JsonProcessingException {
 
         Page pagCommissioned = museuRepository.findAll(
                 pageable);
@@ -109,6 +123,17 @@ public class MuseuServiceImpl implements MuseuService {
         return page;
     }
 
+    @Override
+    public MuseuFuncionamentoOutputDTO findFuncionamentoByMuseuId(Long id) {
+        MuseuFuncionamentoEntity entity = museuFuncionamentoRepository.findFuncionamentoByMuseuId(id);
+        return new MuseuFuncionamentoOutputDTO(entity);
+    }
 
+    @Override
+    public List<MuseuDetalhesOutputDTO> listByFuncionamento(String dia){
+        List<MuseuDetalhesOutputDTO> dtos =
+                museuFuncionamentoRepository.findByFuncionamentoNow(dia);
+        return dtos;
+    }
 
 }

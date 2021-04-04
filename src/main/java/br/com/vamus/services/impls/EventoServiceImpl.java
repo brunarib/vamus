@@ -8,6 +8,7 @@ import br.com.vamus.respositories.MuseuRepository;
 import br.com.vamus.services.interfaces.EventoService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -51,6 +52,20 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public EventoEntity findById(Long id) {
         return this.repository.getOne(id);
+    }
+
+    @Override
+    public List<EventoEntity> listEventosNow() {
+        List<EventoEntity> list = repository.findByDateNow();
+
+        return list;
+    }
+
+    @Override
+    public List<EventoEntity> listEventosByPeriod(LocalDateTime inicio, LocalDateTime fim) {
+        List<EventoEntity> list = repository.findByDate(inicio,fim);
+
+        return list;
     }
 
 
