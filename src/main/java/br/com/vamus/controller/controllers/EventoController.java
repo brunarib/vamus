@@ -29,19 +29,19 @@ public class EventoController {
     @Autowired
     private EventoService service;
 
-    @PostMapping("/create")
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<EventoOutputDTO> create(@RequestBody @Valid EventoDTO dto){
         return new ResponseEntity<>( service.create(dto),HttpStatus.CREATED);
 
     }
 
-    @GetMapping("/all")
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<EventoOutputDTO>>listEventos(){
         return new ResponseEntity<>( service.listEventosNow(),HttpStatus.CREATED);
     }
 
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("/paged")
     public ResponseEntity<Page<List<EventoOutputDTO>>>listEventosPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) throws JsonProcessingException {

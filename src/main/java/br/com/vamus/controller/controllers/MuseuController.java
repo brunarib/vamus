@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/museus")
@@ -27,20 +25,19 @@ public class MuseuController {
     @Autowired
     private MuseuService service;
 
-    @PostMapping("/create")
-        public MuseuEntity create(@RequestBody @Valid MuseuInputDTO dto) throws Exception {
+    @RequestMapping(method = RequestMethod.POST)
+      public MuseuEntity create(@RequestBody @Valid MuseuInputDTO dto) throws Exception {
         return service.create(dto);
 
     }
 
-    @GetMapping("/all")
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<MuseuOutputDTO>> listMuseus(){
-
        return new ResponseEntity<>(service.listMuseus(), HttpStatus.OK);
     }
 
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("/paged")
     public ResponseEntity<Page<List<MuseuOutputDTO>>> listMuseusPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) throws JsonProcessingException {

@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,13 +24,13 @@ public class CategoriaController {
     @Autowired
     private CategoriaService service;
 
-    @PostMapping("/create")
+    @RequestMapping(method = RequestMethod.POST)
     public CategoriaEntity create(@RequestBody @Valid CategoriaDTO dto){
         return service.create(dto);
 
     }
 
-    @GetMapping("/")
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<CategoriaDTO>> listCategorias(){
         List<CategoriaEntity> list = service.listCategorias();
         return  new ResponseEntity<>(list.stream().map(CategoriaDTO::new)
@@ -40,7 +38,7 @@ public class CategoriaController {
                 HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("/paged")
     public ResponseEntity<Page<List<CategoriaDTO>>> listCategoriasPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) throws JsonProcessingException {
@@ -48,11 +46,6 @@ public class CategoriaController {
             return new ResponseEntity<>(service.listCategoriasPaged(
                     pageable), HttpStatus.OK);
     }
-
-   /* @GetMapping("/{id}")
-    public CategoriaEntity findById(@PathVariable UUID id){
-        return service.findById(id);
-    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaDTO> getMib(@PathVariable Long id) {
