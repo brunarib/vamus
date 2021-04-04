@@ -14,9 +14,9 @@ import java.util.UUID;
 
 public interface MuseuService {
 
-    List<MuseuEntity> listMuseus();
+    List<MuseuOutputDTO> listMuseus();
 
-   Page<List<MuseuOutputDTO>> findMuseus(MuseuOutputDTO museuOutputDTO,
+   Page<List<MuseuOutputDTO>> findMuseus(
                                       Pageable pageable) throws JsonProcessingException;
 
 

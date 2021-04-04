@@ -101,21 +101,21 @@ public class MuseuServiceImpl implements MuseuService {
 
 
     @Override
-    public List<MuseuEntity> listMuseus() {
+    public List<MuseuOutputDTO> listMuseus() {
 
         List<MuseuEntity> list = museuRepository.findAll();
-        return list;
+
+        List<MuseuOutputDTO> dtos =
+                list.stream().map(MuseuOutputDTO::new).collect(Collectors.toList());
+        return dtos;
     }
 
     @Override
-    public Page<List<MuseuOutputDTO>> findMuseus(MuseuOutputDTO museuOutputDTO,
-                                                 Pageable pageable) throws JsonProcessingException {
+    public Page<List<MuseuOutputDTO>> findMuseus(Pageable pageable) throws JsonProcessingException {
 
         Page pagCommissioned = museuRepository.findAll(
                 pageable);
         List<MuseuEntity> entityList = pagCommissioned.getContent();
-
-
         List<MuseuOutputDTO> museus =
                 entityList.stream().map(MuseuOutputDTO::new).collect(Collectors.toList());
 

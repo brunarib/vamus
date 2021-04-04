@@ -2,10 +2,7 @@ package br.com.vamus.controller.dtos;
 
 import br.com.vamus.entities.CategoriaEntity;
 import br.com.vamus.entities.MuseuEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class MuseuOutputDTO {
 
     public Long id;
