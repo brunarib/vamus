@@ -49,12 +49,6 @@ public class MuseuController {
                 pageable), HttpStatus.OK);
     }
 
-    /*@GetMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> getMib(@PathVariable Long id) {
-        CategoriaEntity entity = service.findById(id);
-        return new ResponseEntity<>(new CategoriaDTO(entity), HttpStatus.OK);
-    }*/
-
     @GetMapping("/{id}")
     public ResponseEntity<MuseuDetalhesOutputDTO>findById(@PathVariable Long id) throws Exception {
         MuseuEntity entity = service.findById(id);
@@ -64,10 +58,16 @@ public class MuseuController {
     }
 
     @GetMapping("/{dia}/allOpenNow")
-    public ResponseEntity<List<MuseuDetalhesOutputDTO>>findById(@PathVariable String dia) throws Exception {
+    public ResponseEntity<List<MuseuDetalhesOutputDTO>>listAllOpenNow(@PathVariable String dia) throws Exception {
         List<MuseuDetalhesOutputDTO>list = service.listByFuncionamento(dia);
         return new ResponseEntity<>(list,
                 HttpStatus.OK);
     }
 
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable Long id) {
+        service.deleteMuseu(id);
+    }
 }

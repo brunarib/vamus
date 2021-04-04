@@ -3,6 +3,7 @@ package br.com.vamus.services.impls;
 import br.com.vamus.controller.dtos.CategoriaDTO;
 import br.com.vamus.controller.dtos.MuseuOutputDTO;
 import br.com.vamus.entities.CategoriaEntity;
+import br.com.vamus.entities.EventoEntity;
 import br.com.vamus.entities.MuseuEntity;
 import br.com.vamus.respositories.CategoriaRepository;
 import br.com.vamus.services.interfaces.CategoriaService;
@@ -58,5 +59,13 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
 
+    @Override
+    public void deleteCategoria(Long id) {
+        CategoriaEntity entity =
+                repository.findById(id).orElseThrow(() -> new RuntimeException("não encontrado!"));
+        entity.setDeleted(true);
+        repository.save(entity);
+
+    }
 
 }

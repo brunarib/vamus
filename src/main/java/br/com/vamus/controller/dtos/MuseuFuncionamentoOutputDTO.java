@@ -17,10 +17,13 @@ import java.util.UUID;
 public class MuseuFuncionamentoOutputDTO {
 
     private Long id;
+
     @JsonFormat(pattern="HH:mm:ss")
     private LocalTime inicio;
+
     @JsonFormat(pattern="HH:mm:ss")
     private LocalTime fim;
+
     private Boolean domingo;
     private Boolean segunda;
     private Boolean terca;

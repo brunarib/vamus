@@ -8,16 +8,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EventoDTO {
+public class EventoOutputDTO {
 
     private Long id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -28,10 +25,11 @@ public class EventoDTO {
     private String descricao;
     private Boolean gratuito;
     private Float valor;
-    private MuseuOutputDTO museu;
+    private Long museuId;
+    private String museuNome;
 
 
-    public EventoDTO(EventoEntity eventoEntity) {
+    public EventoOutputDTO(EventoEntity eventoEntity) {
         this.id= eventoEntity.getId();
         this.inicio=eventoEntity.getIniEvento();
         this.fim=eventoEntity.getFimEvento();
@@ -39,6 +37,7 @@ public class EventoDTO {
         this.descricao=eventoEntity.getDescricao();
         this.gratuito=eventoEntity.getGratuito();
         this.valor=eventoEntity.getValor();
-        this.museu= new MuseuOutputDTO(eventoEntity.getMuseuEntity());
+        this.museuId= eventoEntity.getMuseuEntity().getId();
+        this.museuNome= eventoEntity.getMuseuEntity().getNome();
     }
 }

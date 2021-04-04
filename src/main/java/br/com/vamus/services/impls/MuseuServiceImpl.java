@@ -65,6 +65,7 @@ public class MuseuServiceImpl implements MuseuService {
         entity.setDeleted(false);
         entity.setNome(dto.getNome());
         entity.setEndereco(dto.getEndereco());
+        entity.setValor(dto.getValor());
         entity.setDescricao(dto.getDecricao());
         entity.setLatitude(dto.getLatitude());
         entity.setLongitude(dto.getLongitude());
@@ -134,6 +135,15 @@ public class MuseuServiceImpl implements MuseuService {
         List<MuseuDetalhesOutputDTO> dtos =
                 museuFuncionamentoRepository.findByFuncionamentoNow(dia);
         return dtos;
+    }
+
+    @Override
+    public void deleteMuseu(Long id) {
+       MuseuEntity entity =
+                museuRepository.findById(id).orElseThrow(() -> new RuntimeException("não encontrado!"));
+        entity.setDeleted(true);
+        museuRepository.save(entity);
+
     }
 
 }

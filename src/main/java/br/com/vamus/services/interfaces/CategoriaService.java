@@ -19,5 +19,6 @@ public interface CategoriaService {
 
     Page<List<CategoriaDTO>> listCategoriasPaged(Pageable pageable) throws JsonProcessingException ;
 
+    void deleteCategoria(Long id);
 
 }

@@ -20,6 +20,7 @@ public class MuseuOutputDTO {
     public String nome;
     public String decricao;
     public String endereco;
+    public Float  valor;
     public String   latitude;
     public String   longitude;
     public CategoriaDTO categoria;
@@ -32,6 +33,7 @@ public class MuseuOutputDTO {
         this.updatedAt=museuEntity.getUpdatedAt();
         this.nome=museuEntity.getNome();
         this.decricao=museuEntity.getDescricao();
+        this.valor=museuEntity.getValor();
         this.endereco=museuEntity.getEndereco();
         this.latitude=museuEntity.getLatitude();
         this.longitude=museuEntity.getLongitude();

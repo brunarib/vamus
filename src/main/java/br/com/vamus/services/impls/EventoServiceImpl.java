@@ -1,15 +1,21 @@
 package br.com.vamus.services.impls;
 
 import br.com.vamus.controller.dtos.EventoDTO;
+import br.com.vamus.controller.dtos.EventoOutputDTO;
 import br.com.vamus.entities.EventoEntity;
 import br.com.vamus.entities.MuseuEntity;
 import br.com.vamus.respositories.EventoRepository;
 import br.com.vamus.respositories.MuseuRepository;
 import br.com.vamus.services.interfaces.EventoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EventoServiceImpl implements EventoService {
@@ -25,12 +31,15 @@ public class EventoServiceImpl implements EventoService {
 
 
     @Override
-    public List<EventoEntity> listEventos() {
-       return  this.repository.findAll();
+    public  List<EventoOutputDTO>  listEventos() {
+        List<EventoEntity> entityList = repository.findAll();
+        List<EventoOutputDTO> list =
+                entityList.stream().map(EventoOutputDTO::new).collect(Collectors.toList());
+        return list;
      }
 
-
-    public EventoEntity create(EventoDTO dto) {
+    @Override
+    public EventoOutputDTO create(EventoDTO dto) {
         EventoEntity entity = new EventoEntity();
 
         entity.setNome(dto.getNome());
@@ -45,27 +54,57 @@ public class EventoServiceImpl implements EventoService {
 
         entity.setMuseuEntity(museuEntity);
 
+        EventoEntity eventoEntity =  this.repository.save(entity);
 
-        return this.repository.save(entity);
+
+        return new EventoOutputDTO(eventoEntity);
     }
 
     @Override
-    public EventoEntity findById(Long id) {
-        return this.repository.getOne(id);
+    public EventoOutputDTO findById(Long id) {
+        EventoEntity eventoEntity =  this.repository.getOne(id);
+        return new EventoOutputDTO(eventoEntity);
     }
 
     @Override
-    public List<EventoEntity> listEventosNow() {
-        List<EventoEntity> list = repository.findByDateNow();
+    public Page<List<EventoOutputDTO>> listEventosNowPaged(Pageable pageable) {
+        Page pagNow = repository.findByDateNowPaged(pageable);
 
+        List<EventoEntity> entityList = pagNow.getContent();
+
+        List<EventoOutputDTO> list =
+                entityList.stream().map(EventoOutputDTO::new).collect(Collectors.toList());
+        Page page = new PageImpl<>(list);
+        return page;
+    }
+
+    @Override
+    public List<EventoOutputDTO> listEventosNow() {
+        List<EventoEntity> entityList = repository.findByDateNow();
+
+        List<EventoOutputDTO> list =
+                entityList.stream().map(EventoOutputDTO::new).collect(Collectors.toList());
         return list;
     }
 
-    @Override
-    public List<EventoEntity> listEventosByPeriod(LocalDateTime inicio, LocalDateTime fim) {
-        List<EventoEntity> list = repository.findByDate(inicio,fim);
 
+    @Override
+    public List<EventoOutputDTO> listEventosByPeriod(LocalDateTime inicio, LocalDateTime fim) {
+        List<EventoEntity> entityList = repository.findByDate(inicio,fim);
+
+        List<EventoOutputDTO> list =
+                entityList.stream().map(EventoOutputDTO::new).collect(Collectors.toList());
         return list;
+    }
+
+
+    @Override
+    public void deleteEvento(Long id) {
+        EventoEntity entity =
+                repository.findById(id).orElseThrow(() -> new RuntimeException("não encontrado!"));
+        entity.setDeleted(true);
+        repository.save(entity);
+
     }
 
 

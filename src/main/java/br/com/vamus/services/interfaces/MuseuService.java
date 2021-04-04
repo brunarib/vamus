@@ -27,4 +27,6 @@ public interface MuseuService {
    MuseuFuncionamentoOutputDTO findFuncionamentoByMuseuId(Long Id);
 
    List<MuseuDetalhesOutputDTO> listByFuncionamento(String dia);
+
+   void deleteMuseu(Long id);
 }

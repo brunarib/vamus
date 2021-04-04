@@ -17,4 +17,5 @@ public interface MuseuFuncionamentoService {
 
     MuseuFuncionamentoEntity findById(Long id);
 
+
 }
