@@ -1,5 +1,6 @@
 package br.com.vamus.controller.dtos;
 
+import br.com.vamus.controller.dtos.mappers.MuseuMapper;
 import br.com.vamus.entities.MuseuEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,8 @@ public class MuseuDetalhesOutputDTO {
     public String   longitude;
     public CategoriaDTO categoria;
     public MuseuFuncionamentoOutputDTO funcionamentoOutputDTO;
+    public String telefone;
+    public String site;
 
 
     public MuseuDetalhesOutputDTO(MuseuEntity museuEntity,
@@ -39,6 +42,8 @@ public class MuseuDetalhesOutputDTO {
         this.longitude=museuEntity.getLongitude();
         this.categoria= new CategoriaDTO(museuEntity.getCategoria());
         this.funcionamentoOutputDTO = funcionamentoOutputDTO;
+        this.telefone = museuEntity.getTelefone();
+        this.site = museuEntity.getSite();
     }
 
 

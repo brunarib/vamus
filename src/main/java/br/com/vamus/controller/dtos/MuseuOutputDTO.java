@@ -1,12 +1,9 @@
 package br.com.vamus.controller.dtos;
 
-import br.com.vamus.entities.CategoriaEntity;
 import br.com.vamus.entities.MuseuEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -24,6 +21,8 @@ public class MuseuOutputDTO {
     public String   latitude;
     public String   longitude;
     public CategoriaDTO categoria;
+    public String telefone;
+    public String site;
 
 
     public MuseuOutputDTO(MuseuEntity museuEntity) {
@@ -38,6 +37,8 @@ public class MuseuOutputDTO {
         this.latitude=museuEntity.getLatitude();
         this.longitude=museuEntity.getLongitude();
         this.categoria= new CategoriaDTO(museuEntity.getCategoria());
+        this.telefone=museuEntity.getTelefone();
+        this.site=museuEntity.getSite();
     }
 
 
