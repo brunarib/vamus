@@ -55,6 +55,12 @@ public class MuseuEntity {
     @Column(name = "valor")
     protected Float valor;
 
+    @Column(name = "telefone")
+    protected String telefone;
+
+    @Column(name = "site")
+    protected String site;
+
     @Column(name = "latitude")
     protected String latitude;
 
