@@ -14,17 +14,19 @@ import java.time.LocalDateTime;
 @Builder
 public class ImagemDTO {
   
-  private Long id;
-  private String nome;
-  private String descricao;
-  private String path;
+  private Long id= null;
+  private String nome= null;
+  private String descricao= null;
+  private String path= null;
 
   public ImagemDTO(ImagensEntity entity){
+    if(entity!=null){
     this.id = entity.getId();
     this.nome = entity.getNome();
     this.descricao=entity.getDescricao();
     byte [] decoder = Base64.decodeBase64(entity.getPath());
-    this.path = new String(decoder);
+    this.path = new String(decoder);}
+    
   }
   
 }

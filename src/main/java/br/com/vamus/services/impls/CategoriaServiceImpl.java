@@ -43,12 +43,13 @@ public class CategoriaServiceImpl implements CategoriaService {
     public CategoriaEntity create(CategoriaDTO dto) throws IOException {
         CategoriaEntity entity = new CategoriaEntity();
         entity.setNome(dto.getNome());
+        if(dto.getImagemDTO() !=null){
         ImagensEntity img = new ImagensEntity();
         img.setNome(dto.getImagemDTO().getNome());
         img.setDescricao(dto.getImagemDTO().getDescricao());
         img.setPath(Base64.encodeBase64(dto.getImagemDTO().getPath().getBytes(StandardCharsets.UTF_8)));
         ImagensEntity savedImg =imagensRepository.save(img);
-        entity.setImagemId(savedImg);
+        entity.setImagemId(savedImg);}
         return repository.save(entity);
     }
 

@@ -73,11 +73,12 @@ public class MuseuEntity {
     protected CategoriaEntity categoria;
 
 
-  @OneToMany(fetch = FetchType.LAZY,cascade = { CascadeType.MERGE,
+  @OneToMany(fetch = FetchType.LAZY,cascade =
+    { CascadeType.MERGE,
     CascadeType.PERSIST })
   @JoinTable(name="museu_imagens", joinColumns=
-    {@JoinColumn(name="museu_id")}, inverseJoinColumns=
-    {@JoinColumn(name="imagem_id")})
+    {@JoinColumn(name="museu_id" , nullable = true)}, inverseJoinColumns=
+    {@JoinColumn(name="imagem_id", nullable = true)})
   private List<ImagensEntity> Imagens;
 
 }

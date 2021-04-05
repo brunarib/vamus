@@ -48,7 +48,7 @@ public class CategoriaEntity {
     @Column(name = "nome")
     private String nome;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "imagem_id")
+    @OneToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "imagem_id", nullable = true)
     protected ImagensEntity imagemId;
 }

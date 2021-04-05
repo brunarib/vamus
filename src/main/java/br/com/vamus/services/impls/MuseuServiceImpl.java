@@ -71,6 +71,7 @@ public class MuseuServiceImpl implements MuseuService {
     entity.setLatitude(dto.getLatitude());
     entity.setLongitude(dto.getLongitude());
     entity.setCategoria(categoriaEntity);
+    if(dto.getImagemDTOS() !=null || !dto.getImagemDTOS().isEmpty()){
     List<ImagensEntity> listImagens = new ArrayList<>();
       for(ImagemDTO e :dto.getImagemDTOS()){
         ImagensEntity img = new ImagensEntity();
@@ -81,7 +82,7 @@ public class MuseuServiceImpl implements MuseuService {
         
         listImagens.add(saved);
       }
-    entity.setImagens(listImagens);
+    entity.setImagens(listImagens);}
     MuseuEntity saved = museuRepository.save(entity);
     
     

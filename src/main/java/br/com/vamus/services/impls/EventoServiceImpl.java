@@ -58,13 +58,13 @@ public class EventoServiceImpl implements EventoService {
         MuseuEntity museuEntity =
                 museuRepository.getOne(dto.getMuseu().getId());
 
-
+      if(dto.getImagemDTO() !=null){
       ImagensEntity img = new ImagensEntity();
       img.setNome(dto.getImagemDTO().getNome());
       img.setDescricao(dto.getImagemDTO().getDescricao());
       img.setPath(Base64.encodeBase64(dto.getImagemDTO().getPath().getBytes(StandardCharsets.UTF_8)));
       ImagensEntity savedImg =imagensRepository.save(img);
-      entity.setImagemId(savedImg);
+      entity.setImagemId(savedImg);}
       
 
         entity.setMuseuEntity(museuEntity);
@@ -131,7 +131,7 @@ public class EventoServiceImpl implements EventoService {
         repository.save(entity);
     }
     @Override
-    public EventoOutputDTO update(Long id,EventoDTO dto){
+      public EventoOutputDTO update(Long id,EventoDTO dto){
       EventoOutputDTO eventoOutputDTO= new EventoOutputDTO();
 
       Optional<EventoEntity> oldEntity = repository.findById(id);
@@ -148,7 +148,8 @@ public class EventoServiceImpl implements EventoService {
         MuseuEntity museuEntity =
           museuRepository.findById(dto.getMuseu().getId()).get();
         entity.setMuseuEntity(museuEntity);
-  
+
+        if(dto.getImagemDTO() !=null){
          ImagensEntity oldImagem =
            imagensRepository.findByMuseuId(museuEntity.getId()).get(0); 
         
@@ -157,7 +158,7 @@ public class EventoServiceImpl implements EventoService {
         img.setDescricao(dto.getImagemDTO().getDescricao());
         img.setPath(Base64.encodeBase64(dto.getImagemDTO().getPath().getBytes(StandardCharsets.UTF_8)));
         ImagensEntity savedImg = imagensRepository.save(img);
-        entity.setImagemId(savedImg);
+        entity.setImagemId(savedImg);}
         
         EventoEntity eventoEntity = this.repository.saveAndFlush(entity);
         eventoOutputDTO= new EventoOutputDTO(eventoEntity);

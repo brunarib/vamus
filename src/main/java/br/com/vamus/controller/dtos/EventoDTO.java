@@ -42,6 +42,6 @@ public class EventoDTO {
         this.gratuito=eventoEntity.getGratuito();
         this.valor=eventoEntity.getValor();
         this.museu= new MuseuOutputDTO(eventoEntity.getMuseuEntity());
-        this.imagemDTO= new ImagemDTO(eventoEntity.getImagemId());
+        this.imagemDTO= new ImagemDTO( eventoEntity.getImagemId()) == null ? null: new ImagemDTO( eventoEntity.getImagemId());
     }
 }
