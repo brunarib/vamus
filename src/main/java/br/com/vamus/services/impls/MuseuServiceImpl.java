@@ -222,23 +222,21 @@ public class MuseuServiceImpl implements MuseuService {
     }
 
   @Override
-  public Page<List<MuseuOutputDTO>> findMuseusAround(String latitude,
+  public List<MuseuOutputDTO> findMuseusAround(String latitude,
                                                      String longitude,
-                                                     int km,
-                                                     Pageable pageable)
+                                                     int km)
     throws JsonProcessingException {
 
-    Page<MuseuEntity> pagCommissioned;
+    List<MuseuEntity> pagCommissioned;
 
     
-      pagCommissioned = museuRepository.findNetherMuseus(latitude,longitude,km,
-        pageable);
+      pagCommissioned = museuRepository.findAroundMuseus(latitude,longitude,km);
     
-    List<MuseuEntity> entityList = pagCommissioned.getContent();
-    List<MuseuOutputDTO> museus = entityList.stream().map(MuseuOutputDTO::new).collect(Collectors.toList());
+    
+    List<MuseuOutputDTO> museus = pagCommissioned.stream().map(MuseuOutputDTO::new).collect(Collectors.toList());
 
-    Page page = new PageImpl<>(museus);
-    return page;
+    
+    return museus;
   }
 
 }

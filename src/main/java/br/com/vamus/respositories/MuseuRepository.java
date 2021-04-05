@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MuseuRepository extends JpaRepository<MuseuEntity, Long> {
   Page<MuseuEntity> findAll(Pageable pageable);
@@ -22,7 +24,7 @@ public interface MuseuRepository extends JpaRepository<MuseuEntity, Long> {
     "         sin(radians(latitude))\n" +
     "      )) AS CAMPOLATITUDE\n" +
     "FROM museus m2 HAVING CAMPOLATITUDE <=:km")
-  Page<MuseuEntity>findNetherMuseus(@Param("latitude") String latitude,
-                                    @Param("longitude")String longitude,
-                                    @Param("km") int km, Pageable pageable);
+  List<MuseuEntity> findAroundMuseus(@Param("latitude") String latitude,
+                                     @Param("longitude")String longitude,
+                                     @Param("km") int km);
 }
