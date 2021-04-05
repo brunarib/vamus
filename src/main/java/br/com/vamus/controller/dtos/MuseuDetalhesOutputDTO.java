@@ -4,13 +4,16 @@ import br.com.vamus.controller.dtos.mappers.MuseuMapper;
 import br.com.vamus.entities.MuseuEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class MuseuDetalhesOutputDTO {
 
     public Long id;
@@ -26,10 +29,13 @@ public class MuseuDetalhesOutputDTO {
     public MuseuFuncionamentoOutputDTO funcionamentoOutputDTO;
     public String telefone;
     public String site;
+    public List<ImagemDTO> imagemDTOS;
 
 
     public MuseuDetalhesOutputDTO(MuseuEntity museuEntity,
-                                  MuseuFuncionamentoOutputDTO funcionamentoOutputDTO) {
+                                  MuseuFuncionamentoOutputDTO funcionamentoOutputDTO,
+      List<ImagemDTO> imagemDTOList
+    ) {
 
         this.id=museuEntity.getId();
         this.createdAt=museuEntity.getCreatedAt();
@@ -44,6 +50,7 @@ public class MuseuDetalhesOutputDTO {
         this.funcionamentoOutputDTO = funcionamentoOutputDTO;
         this.telefone = museuEntity.getTelefone();
         this.site = museuEntity.getSite();
+        this.imagemDTOS = imagemDTOList;
     }
 
 

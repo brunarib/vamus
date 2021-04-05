@@ -1,29 +1,36 @@
 package br.com.vamus.services.impls;
 
 import br.com.vamus.controller.dtos.CategoriaDTO;
-import br.com.vamus.controller.dtos.MuseuOutputDTO;
 import br.com.vamus.entities.CategoriaEntity;
-import br.com.vamus.entities.EventoEntity;
-import br.com.vamus.entities.MuseuEntity;
+import br.com.vamus.entities.ImagensEntity;
 import br.com.vamus.respositories.CategoriaRepository;
+import br.com.vamus.respositories.ImagensRepository;
 import br.com.vamus.services.interfaces.CategoriaService;
+import br.com.vamus.util.ImagemUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
+  
+    private ImagemUtil imagemUtil;
 
-
+    private final ImagensRepository imagensRepository;
     private final CategoriaRepository repository;
 
-    public CategoriaServiceImpl(CategoriaRepository repository) {
-        this.repository = repository;
+    public CategoriaServiceImpl(ImagensRepository imagensRepository, CategoriaRepository repository) {
+      this.imagensRepository = imagensRepository;
+      this.repository = repository;
     }
 
 
@@ -33,9 +40,15 @@ public class CategoriaServiceImpl implements CategoriaService {
      }
 
     @Override
-    public CategoriaEntity create(CategoriaDTO dto) {
+    public CategoriaEntity create(CategoriaDTO dto) throws IOException {
         CategoriaEntity entity = new CategoriaEntity();
         entity.setNome(dto.getNome());
+        ImagensEntity img = new ImagensEntity();
+        img.setNome(dto.getImagemDTO().getNome());
+        img.setDescricao(dto.getImagemDTO().getDescricao());
+        img.setPath(Base64.encodeBase64(dto.getImagemDTO().getPath().getBytes(StandardCharsets.UTF_8)));
+        ImagensEntity savedImg =imagensRepository.save(img);
+        entity.setImagemId(savedImg);
         return repository.save(entity);
     }
 
@@ -66,6 +79,23 @@ public class CategoriaServiceImpl implements CategoriaService {
         entity.setDeleted(true);
         repository.save(entity);
 
+    }
+    
+    public ImagensEntity saveImagem(MultipartFile[] file,
+                                    CategoriaDTO dto)throws IOException {
+      ImagensEntity saved = null;
+     
+      for(MultipartFile e : file){
+      System.out.println("Original Image Byte Size - " + e.getBytes().length);
+      ImagensEntity img = new ImagensEntity();
+      img.setNome(e.getName());
+      img.setDescricao(dto.imagemDTO.getDescricao());
+      img.setPath(e.getBytes());
+      saved = img;
+            
+      }
+      imagensRepository.save(saved);
+      return saved;
     }
 
 }

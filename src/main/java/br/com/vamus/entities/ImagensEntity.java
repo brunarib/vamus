@@ -55,7 +55,7 @@ public class ImagensEntity {
     
     //image bytes can have large lengths so we specify a value
     //which is more than the default length for picByte column
-    @Column(name = "path", length = 1000)
+    @Column(name = "path",length = 16777215)
     private byte[] path;
     
     

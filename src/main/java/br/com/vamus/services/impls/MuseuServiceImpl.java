@@ -1,23 +1,24 @@
 package br.com.vamus.services.impls;
 
-import br.com.vamus.controller.dtos.MuseuDetalhesOutputDTO;
-import br.com.vamus.controller.dtos.MuseuFuncionamentoOutputDTO;
-import br.com.vamus.controller.dtos.MuseuInputDTO;
-import br.com.vamus.controller.dtos.MuseuOutputDTO;
+import br.com.vamus.controller.dtos.*;
 import br.com.vamus.entities.CategoriaEntity;
+import br.com.vamus.entities.ImagensEntity;
 import br.com.vamus.entities.MuseuEntity;
 import br.com.vamus.entities.MuseuFuncionamentoEntity;
 import br.com.vamus.respositories.CategoriaRepository;
+import br.com.vamus.respositories.ImagensRepository;
 import br.com.vamus.respositories.MuseuFuncionamentoRepository;
 import br.com.vamus.respositories.MuseuRepository;
 
 import br.com.vamus.services.interfaces.MuseuService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +29,14 @@ import java.util.stream.Collectors;
 public class MuseuServiceImpl implements MuseuService {
 
   /* private final static MuseuMapper museuMapper = MuseuMapper.INSTANCE; */
-
+  private final ImagensRepository imagensRepository;
   private final MuseuRepository museuRepository;
   private final CategoriaRepository categoriaRepository;
   private final MuseuFuncionamentoRepository museuFuncionamentoRepository;
 
-  public MuseuServiceImpl(MuseuRepository museuRepository, CategoriaRepository categoriaRepository,
-      MuseuFuncionamentoRepository museuFuncionamentoRepository) {
+  public MuseuServiceImpl(ImagensRepository imagensRepository, MuseuRepository museuRepository, CategoriaRepository categoriaRepository,
+                          MuseuFuncionamentoRepository museuFuncionamentoRepository) {
+    this.imagensRepository = imagensRepository;
 
     this.museuRepository = museuRepository;
     this.categoriaRepository = categoriaRepository;
@@ -67,7 +69,20 @@ public class MuseuServiceImpl implements MuseuService {
     entity.setLatitude(dto.getLatitude());
     entity.setLongitude(dto.getLongitude());
     entity.setCategoria(categoriaEntity);
+    List<ImagensEntity> listImagens = new ArrayList<>();
+      for(ImagemDTO e :dto.getImagemDTOS()){
+        ImagensEntity img = new ImagensEntity();
+        img.setNome(e.getNome());
+        img.setDescricao(e.getDescricao());
+        img.setPath(Base64.encodeBase64(e.getPath().getBytes(StandardCharsets.UTF_8)));
+        ImagensEntity saved = imagensRepository.save(img);
+        
+        listImagens.add(saved);
+      }
+    entity.setImagens(listImagens);
     MuseuEntity saved = museuRepository.save(entity);
+    
+    
 
     // funcionamento
     MuseuFuncionamentoEntity museuFuncionamentoEntity = new MuseuFuncionamentoEntity();
@@ -190,6 +205,16 @@ public class MuseuServiceImpl implements MuseuService {
         museu= new MuseuOutputDTO(saved);
       }
       return museu;
+    }
+    
+    @Override
+    public List<ImagemDTO> listImgByMuseuId(Long id){
+      List<ImagemDTO> dtos = new ArrayList<>();
+    List<ImagensEntity>  imgList = imagensRepository.findByMuseuId(id);
+    for(ImagensEntity e : imgList){
+      dtos.add(new ImagemDTO(e));
+    }
+    return dtos;
     }
 
 }

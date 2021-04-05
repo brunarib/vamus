@@ -12,8 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +27,7 @@ public class CategoriaController {
     private CategoriaService service;
 
     @RequestMapping(method = RequestMethod.POST)
-    public CategoriaEntity create(@RequestBody @Valid CategoriaDTO dto){
+    public CategoriaEntity create(@RequestBody @Valid CategoriaDTO dto) throws IOException {
         return service.create(dto);
 
     }

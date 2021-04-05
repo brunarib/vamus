@@ -10,6 +10,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class MuseuInputDTO {
 
@@ -24,6 +25,7 @@ public class MuseuInputDTO {
     private String   longitude;
     private CategoriaDTO  categoria;
     private MuseuFuncionamentoOutputDTO funcionamento;
+    private List<ImagemDTO> imagemDTOS;
 
 
 

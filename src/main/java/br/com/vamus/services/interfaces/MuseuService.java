@@ -1,9 +1,6 @@
 package br.com.vamus.services.interfaces;
 
-import br.com.vamus.controller.dtos.MuseuDetalhesOutputDTO;
-import br.com.vamus.controller.dtos.MuseuFuncionamentoOutputDTO;
-import br.com.vamus.controller.dtos.MuseuInputDTO;
-import br.com.vamus.controller.dtos.MuseuOutputDTO;
+import br.com.vamus.controller.dtos.*;
 import br.com.vamus.entities.MuseuEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Page;
@@ -30,5 +27,7 @@ public interface MuseuService {
   MuseuOutputDTO update(Long id, MuseuInputDTO museuInputDTO);
 
   void deleteMuseu(Long id);
+
+  List<ImagemDTO> listImgByMuseuId(Long id);
 
 }

@@ -27,6 +27,7 @@ public class EventoOutputDTO {
     private Float valor;
     private Long museuId;
     private String museuNome;
+    private ImagemDTO imagemDTO;
 
 
     public EventoOutputDTO(EventoEntity eventoEntity) {
@@ -39,5 +40,6 @@ public class EventoOutputDTO {
         this.valor=eventoEntity.getValor();
         this.museuId= eventoEntity.getMuseuEntity().getId();
         this.museuNome= eventoEntity.getMuseuEntity().getNome();
+       this.imagemDTO = new ImagemDTO(eventoEntity.getImagemId());
     }
 }

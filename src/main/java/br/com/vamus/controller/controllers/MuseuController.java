@@ -51,7 +51,8 @@ public class MuseuController {
     public ResponseEntity<MuseuDetalhesOutputDTO>findById(@PathVariable Long id) throws Exception {
         MuseuEntity entity = service.findById(id);
         return new ResponseEntity<>(new MuseuDetalhesOutputDTO(entity,
-                service.findFuncionamentoByMuseuId(id)),
+                service.findFuncionamentoByMuseuId(id),
+          service.listImgByMuseuId(id)),
                 HttpStatus.OK);
     }
 

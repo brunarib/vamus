@@ -2,6 +2,7 @@ package br.com.vamus.controller.dtos;
 
 
 import br.com.vamus.entities.EventoEntity;
+import br.com.vamus.entities.ImagensEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,7 @@ public class EventoDTO {
     private Boolean gratuito;
     private Float valor;
     private MuseuOutputDTO museu;
+    private ImagemDTO imagemDTO;
 
 
     public EventoDTO(EventoEntity eventoEntity) {
@@ -40,5 +42,6 @@ public class EventoDTO {
         this.gratuito=eventoEntity.getGratuito();
         this.valor=eventoEntity.getValor();
         this.museu= new MuseuOutputDTO(eventoEntity.getMuseuEntity());
+        this.imagemDTO= new ImagemDTO(eventoEntity.getImagemId());
     }
 }
