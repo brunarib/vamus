@@ -222,7 +222,7 @@ public class MuseuServiceImpl implements MuseuService {
     }
 
   @Override
-  public Page<List<MuseuOutputDTO>> findMuseusNether(String latitude,
+  public Page<List<MuseuOutputDTO>> findMuseusAround(String latitude,
                                                      String longitude,
                                                      int km,
                                                      Pageable pageable)

@@ -30,7 +30,7 @@ public interface MuseuService {
 
   List<ImagemDTO> listImgByMuseuId(Long id);
 
-  Page<List<MuseuOutputDTO>> findMuseusNether(String latitude,
+  Page<List<MuseuOutputDTO>> findMuseusAround(String latitude,
                                                      String longitude,
                                                      int km,
                                                      Pageable pageable)
