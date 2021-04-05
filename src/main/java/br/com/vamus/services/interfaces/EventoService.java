@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 public interface EventoService {
 
@@ -17,13 +17,11 @@ public interface EventoService {
 
     EventoOutputDTO findById(Long id);
 
-
     Page<List<EventoOutputDTO>> listEventosNowPaged(Pageable pageable);
 
-    List<EventoOutputDTO> listEventosNow();
+    List<EventoOutputDTO> listEventosNow(Optional<Long> museuId);
 
-    List<EventoOutputDTO> listEventosByPeriod(LocalDateTime inicio,
-                                           LocalDateTime fim);
+    List<EventoOutputDTO> listEventosByPeriod(LocalDateTime inicio, LocalDateTime fim);
 
     void deleteEvento(Long id);
 }

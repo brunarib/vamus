@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -36,8 +37,8 @@ public class EventoController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<EventoOutputDTO>>listEventos(){
-        return new ResponseEntity<>( service.listEventosNow(),HttpStatus.CREATED);
+    public ResponseEntity<List<EventoOutputDTO>>listEventos(@RequestParam(required = false) Optional<Long> museuId){
+        return new ResponseEntity<>( service.listEventosNow(museuId),HttpStatus.CREATED);
     }
 
 
