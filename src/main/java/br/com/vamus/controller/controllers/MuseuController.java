@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/museus")
@@ -40,10 +41,10 @@ public class MuseuController {
     @GetMapping("/paged")
     public ResponseEntity<Page<List<MuseuOutputDTO>>> listMuseusPaged(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) throws JsonProcessingException {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) Optional<Long> categoryId ) throws JsonProcessingException {
         Pageable pageable = PageRequest.of(page, size);
-        return new ResponseEntity<>(service.findMuseus(
-                pageable), HttpStatus.OK);
+        return new ResponseEntity<>(service.findMuseus(pageable, categoryId), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

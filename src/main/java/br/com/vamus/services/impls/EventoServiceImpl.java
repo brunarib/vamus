@@ -14,8 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class EventoServiceImpl implements EventoService {
@@ -79,14 +80,24 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
-    public List<EventoOutputDTO> listEventosNow() {
+    public List<EventoOutputDTO> listEventosNow(Optional<Long> museuId) {
         List<EventoEntity> entityList = repository.findByDateNow();
 
-        List<EventoOutputDTO> list =
-                entityList.stream().map(EventoOutputDTO::new).collect(Collectors.toList());
+
+        List<EventoOutputDTO>list;
+        if(museuId.isPresent()) {
+          list = entityList.stream()
+            .filter(el -> el.getMuseuEntity().getId() == museuId.get())
+            .map(EventoOutputDTO::new)
+            .collect(Collectors.toList());
+          return list;
+        }
+        
+        list = entityList.stream()
+          .map(EventoOutputDTO::new)
+          .collect(Collectors.toList());
         return list;
     }
-
 
     @Override
     public List<EventoOutputDTO> listEventosByPeriod(LocalDateTime inicio, LocalDateTime fim) {
@@ -104,8 +115,5 @@ public class EventoServiceImpl implements EventoService {
                 repository.findById(id).orElseThrow(() -> new RuntimeException("não encontrado!"));
         entity.setDeleted(true);
         repository.save(entity);
-
     }
-
-
 }
