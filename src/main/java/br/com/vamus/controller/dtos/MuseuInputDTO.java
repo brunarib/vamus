@@ -20,6 +20,8 @@ public class MuseuInputDTO {
     private String nome;
     private String decricao;
     private String endereco;
+    private String telefone;
+    private String site;
     private Float  valor;
     private String   latitude;
     private String   longitude;

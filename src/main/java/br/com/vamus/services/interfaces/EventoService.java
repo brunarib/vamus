@@ -24,4 +24,6 @@ public interface EventoService {
     List<EventoOutputDTO> listEventosByPeriod(LocalDateTime inicio, LocalDateTime fim);
 
     void deleteEvento(Long id);
+
+    EventoOutputDTO update(Long id, EventoDTO dto);
 }

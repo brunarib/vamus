@@ -38,7 +38,8 @@ public class EventoController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<EventoOutputDTO>>listEventos(@RequestParam(required = false) Optional<Long> museuId){
-        return new ResponseEntity<>( service.listEventosNow(museuId),HttpStatus.CREATED);
+        return new ResponseEntity<>( service.listEventosNow(museuId),
+          HttpStatus.OK);
     }
 
 
@@ -63,7 +64,7 @@ public class EventoController {
     @GetMapping("/{id}")
     public ResponseEntity<EventoOutputDTO> findById(@PathVariable Long id){
         EventoOutputDTO dto= service.findById(id);
-        return new ResponseEntity<>( dto,HttpStatus.CREATED);
+        return new ResponseEntity<>( dto,HttpStatus.OK);
     }
 
 
@@ -72,5 +73,14 @@ public class EventoController {
     public void delete(@PathVariable Long id) {
         service.deleteEvento(id);
     }
+
+
+
+  @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+  public ResponseEntity<EventoOutputDTO> update(@RequestBody @Valid EventoDTO dto,
+                                           @PathVariable("id") Long id){
+    return new ResponseEntity<>( service.update(id, dto),HttpStatus.OK);
+
+  }
 
 }

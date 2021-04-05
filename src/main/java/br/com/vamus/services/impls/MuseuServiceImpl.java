@@ -64,6 +64,8 @@ public class MuseuServiceImpl implements MuseuService {
     entity.setDeleted(false);
     entity.setNome(dto.getNome());
     entity.setEndereco(dto.getEndereco());
+    entity.setTelefone(dto.getTelefone());
+    entity.setSite(dto.getSite());
     entity.setValor(dto.getValor());
     entity.setDescricao(dto.getDecricao());
     entity.setLatitude(dto.getLatitude());
@@ -175,6 +177,8 @@ public class MuseuServiceImpl implements MuseuService {
         entity.setDeleted(false);
         entity.setNome(museuInputDTO.getNome());
         entity.setEndereco(museuInputDTO.getEndereco());
+        entity.setEndereco(museuInputDTO.getEndereco());
+        entity.setTelefone(museuInputDTO.getTelefone());
         entity.setValor(museuInputDTO.getValor());
         entity.setDescricao(museuInputDTO.getDecricao());
         entity.setLatitude(museuInputDTO.getLatitude());
@@ -216,5 +220,25 @@ public class MuseuServiceImpl implements MuseuService {
     }
     return dtos;
     }
+
+  @Override
+  public Page<List<MuseuOutputDTO>> findMuseusNether(String latitude,
+                                                     String longitude,
+                                                     int km,
+                                                     Pageable pageable)
+    throws JsonProcessingException {
+
+    Page<MuseuEntity> pagCommissioned;
+
+    
+      pagCommissioned = museuRepository.findNetherMuseus(latitude,longitude,km,
+        pageable);
+    
+    List<MuseuEntity> entityList = pagCommissioned.getContent();
+    List<MuseuOutputDTO> museus = entityList.stream().map(MuseuOutputDTO::new).collect(Collectors.toList());
+
+    Page page = new PageImpl<>(museus);
+    return page;
+  }
 
 }
