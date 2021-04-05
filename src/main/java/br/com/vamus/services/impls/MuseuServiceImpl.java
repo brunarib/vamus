@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,9 +98,7 @@ public class MuseuServiceImpl implements MuseuService {
             throw new Exception("Museu não cadastrado!");
         }
         return entity;
-
     }
-
 
     @Override
     public List<MuseuOutputDTO> listMuseus() {
@@ -144,6 +143,58 @@ public class MuseuServiceImpl implements MuseuService {
         entity.setDeleted(true);
         museuRepository.save(entity);
 
+    }
+
+  @Override
+  public MuseuOutputDTO update(Long id, MuseuOutputDTO museuOutputDTO) {
+    return null;
+  }
+
+  @Override
+    public MuseuOutputDTO update(Long id, MuseuInputDTO museuInputDTO){
+
+      MuseuOutputDTO museu = new MuseuOutputDTO();
+      Optional<MuseuEntity> oldMuseu = museuRepository.findById(id);
+      
+      if(oldMuseu.isPresent()){
+        
+      
+        MuseuEntity entity = oldMuseu.get();
+        entity.setNome(museuInputDTO.getNome());
+        entity.setUpdatedAt(LocalDateTime.now());
+        entity.setDeleted(false);
+        entity.setNome(museuInputDTO.getNome());
+        entity.setEndereco(museuInputDTO.getEndereco());
+        entity.setValor(museuInputDTO.getValor());
+        entity.setDescricao(museuInputDTO.getDecricao());
+        entity.setLatitude(museuInputDTO.getLatitude());
+        entity.setLongitude(museuInputDTO.getLongitude());
+
+        CategoriaEntity categoriaEntity =
+          categoriaRepository.findCategoriaById(museuInputDTO.getCategoria().getId());
+        entity.setCategoria(categoriaEntity);
+
+        MuseuEntity saved = museuRepository.saveAndFlush(entity);
+          
+        MuseuFuncionamentoEntity FuncionamentoOld =
+          museuFuncionamentoRepository.findFuncionamentoByMuseuId(museuInputDTO.getId());
+        //funcionamento
+        MuseuFuncionamentoEntity museuFuncionamentoEntity = FuncionamentoOld;
+        museuFuncionamentoEntity.setMuseuId(saved);
+        museuFuncionamentoEntity.setIniFuncionameto(museuInputDTO.getFuncionamento().getInicio());
+        museuFuncionamentoEntity.setFimFuncionameto(museuInputDTO.getFuncionamento().getFim());
+        museuFuncionamentoEntity.setDomingo(museuInputDTO.getFuncionamento().getDomingo());
+        museuFuncionamentoEntity.setSegunda(museuInputDTO.getFuncionamento().getSegunda());
+        museuFuncionamentoEntity.setTerca(museuInputDTO.getFuncionamento().getTerca());
+        museuFuncionamentoEntity.setQuarta(museuInputDTO.getFuncionamento().getQuarta());
+        museuFuncionamentoEntity.setQuinta(museuInputDTO.getFuncionamento().getQuinta());
+        museuFuncionamentoEntity.setSexta(museuInputDTO.getFuncionamento().getSexta());
+        museuFuncionamentoEntity.setSabado(museuInputDTO.getFuncionamento().getSabado());
+        museuFuncionamentoRepository.save(museuFuncionamentoEntity);
+
+        museu= new MuseuOutputDTO(saved);
+      }
+      return museu;
     }
 
 }

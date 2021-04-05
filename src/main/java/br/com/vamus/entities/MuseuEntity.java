@@ -5,6 +5,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder(toBuilder = true)
 @Getter
@@ -71,5 +72,12 @@ public class MuseuEntity {
     @JoinColumn(name = "categoria_id")
     protected CategoriaEntity categoria;
 
+
+  @OneToMany(fetch = FetchType.LAZY,cascade = { CascadeType.MERGE,
+    CascadeType.PERSIST })
+  @JoinTable(name="museu_imagens", joinColumns=
+    {@JoinColumn(name="museu_id")}, inverseJoinColumns=
+    {@JoinColumn(name="imagem_id")})
+  private List<ImagensEntity> Imagens;
 
 }

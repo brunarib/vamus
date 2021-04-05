@@ -45,6 +45,7 @@ public class EventoEntity  {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+    
     @ManyToOne
     @JoinColumn(name = "museu_id")
     private MuseuEntity museuEntity;
@@ -66,5 +67,9 @@ public class EventoEntity  {
 
     @Column(name = "valor")
     private Float valor;
+
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "imagem_id")
+    protected ImagensEntity imagemId;
 
 }

@@ -67,4 +67,12 @@ public class MuseuController {
     public void delete(@PathVariable Long id) {
         service.deleteMuseu(id);
     }
+
+  @RequestMapping(value = "/{id}", method =  RequestMethod.PUT)
+  public ResponseEntity<MuseuOutputDTO> Put(@PathVariable(value = "id") long id,
+                               @Valid @RequestBody MuseuInputDTO inputDTO) {
+    return new ResponseEntity<>(service.update(id, inputDTO), HttpStatus.OK);
+
+  }
+
 }
