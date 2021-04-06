@@ -78,13 +78,11 @@ public class MuseuController {
   }
 
 
-  @GetMapping("/pagedNether/{latitude}/{longitude}/{km}")
+  @GetMapping("/byArea")
   public ResponseEntity <List<MuseuOutputDTO>> listMuseusPagedAround(
-    @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "10") int size,
-    @PathVariable(value = "latitude") String latitude,
-    @PathVariable(value = "longitude") String longitude,
-    @PathVariable(value = "km") int km) throws JsonProcessingException {
+    @RequestParam String latitude,
+    @RequestParam String longitude,
+    @RequestParam int km) throws JsonProcessingException {
     return new ResponseEntity<>(service.findMuseusAround(latitude,longitude,
       km),
       HttpStatus.OK);
